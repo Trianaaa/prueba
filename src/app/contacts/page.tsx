@@ -93,7 +93,7 @@ export default function ContactsPage() {
         </div>
         <div className="flex items-center gap-3">
           <a
-            href="https://github.com/pablotrianam/contactos"
+            href="https://github.com/Trianaaa/prueba/tree/Prueba_ingco"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:opacity-80 transition"
