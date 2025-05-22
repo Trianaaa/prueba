@@ -35,8 +35,12 @@ export default function ContactsPage() {
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
         const data: User[] = await res.json();
         setUsers(data.filter((user) => user.status));
-      } catch (err: any) {
-        setError(`No se pudieron cargar los usuarios: ${err.message}`);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(`No se pudieron cargar los usuarios: ${err.message}`);
+        } else {
+          setError("No se pudieron cargar los usuarios: Error desconocido");
+        }
       } finally {
         setLoading(false);
       }
@@ -72,8 +76,11 @@ export default function ContactsPage() {
   };
 
   return (
-    <div className={`${darkMode ? "bg-gray-900 text-white" : "bg-gray-50 text-gray-900"} p-5 min-h-screen flex flex-col items-center transition-all duration-300`}>
-
+    <div
+      className={`${
+        darkMode ? "bg-gray-900 text-white" : "bg-gray-50 text-gray-900"
+      } p-5 min-h-screen flex flex-col items-center transition-all duration-300`}
+    >
       {/* Barra superior con GitHub + Toggle Dark Mode */}
       <div className="w-full max-w-4xl mb-4 flex justify-between items-center">
         <div className="flex gap-2">
@@ -97,7 +104,11 @@ export default function ContactsPage() {
             onClick={() => setDarkMode(!darkMode)}
             className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-black dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 transition"
           >
-            {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            {darkMode ? (
+              <Sun className="w-5 h-5" />
+            ) : (
+              <Moon className="w-5 h-5" />
+            )}
           </button>
         </div>
       </div>
@@ -105,7 +116,11 @@ export default function ContactsPage() {
       <h1 className="text-3xl font-bold mb-8">Gestión de Usuarios</h1>
 
       {/* Formulario de agregar usuario */}
-      <div className={`${darkMode ? "bg-gray-800" : "bg-white"} p-6 rounded-lg shadow-md mb-8 w-full max-w-4xl`}>
+      <div
+        className={`${
+          darkMode ? "bg-gray-800" : "bg-white"
+        } p-6 rounded-lg shadow-md mb-8 w-full max-w-4xl`}
+      >
         <h2 className="text-xl font-semibold mb-4">Agregar Nuevo Usuario</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <input
@@ -143,8 +158,14 @@ export default function ContactsPage() {
       </div>
 
       {/* Tabla de usuarios */}
-      <div className={`${darkMode ? "bg-gray-800" : "bg-white"} p-6 rounded-lg shadow-md w-full max-w-4xl`}>
-        <h2 className="text-xl font-semibold mb-4">Lista de Usuarios Activos</h2>
+      <div
+        className={`${
+          darkMode ? "bg-gray-800" : "bg-white"
+        } p-6 rounded-lg shadow-md w-full max-w-4xl`}
+      >
+        <h2 className="text-xl font-semibold mb-4">
+          Lista de Usuarios Activos
+        </h2>
 
         {loading && <p className="text-center">Cargando usuarios...</p>}
         {error && <p className="text-center text-red-500">Error: {error}</p>}
@@ -156,18 +177,40 @@ export default function ContactsPage() {
             ) : (
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
-                  <thead className={`${darkMode ? "bg-gray-700 text-gray-200" : "bg-gray-50 text-gray-600"}`}>
+                  <thead
+                    className={`${
+                      darkMode
+                        ? "bg-gray-700 text-gray-200"
+                        : "bg-gray-50 text-gray-600"
+                    }`}
+                  >
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium uppercase">Nombre</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium uppercase">Apellido</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium uppercase">Email</th>
-                      <th className="px-6 py-3 text-center text-xs font-medium uppercase">Acciones</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium uppercase">
+                        Nombre
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium uppercase">
+                        Apellido
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium uppercase">
+                        Email
+                      </th>
+                      <th className="px-6 py-3 text-center text-xs font-medium uppercase">
+                        Acciones
+                      </th>
                     </tr>
                   </thead>
-                  <tbody className={darkMode ? "bg-gray-800 divide-y divide-gray-700" : "bg-white divide-y divide-gray-200"}>
+                  <tbody
+                    className={
+                      darkMode
+                        ? "bg-gray-800 divide-y divide-gray-700"
+                        : "bg-white divide-y divide-gray-200"
+                    }
+                  >
                     {users.map((user) => (
                       <tr key={user.id}>
-                        <td className="px-6 py-4 text-sm font-medium">{user.firstName}</td>
+                        <td className="px-6 py-4 text-sm font-medium">
+                          {user.firstName}
+                        </td>
                         <td className="px-6 py-4 text-sm">{user.lastName}</td>
                         <td className="px-6 py-4 text-sm">{user.email}</td>
                         <td className="px-6 py-4 text-center">
@@ -175,7 +218,11 @@ export default function ContactsPage() {
                             onClick={() => handleDeleteUser(user.id)}
                             className="p-2 rounded-full bg-red-500 text-white hover:bg-red-600"
                           >
-                            <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                            <svg
+                              className="h-5 w-5"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
                               <path
                                 fillRule="evenodd"
                                 d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm6 0a1 1 0 11-2 0v6a1 1 0 112 0V8z"
