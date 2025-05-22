@@ -24,20 +24,6 @@ export default function Home() {
         >
           <Github className="w-5 h-5 text-black dark:text-white" />
         </a>
-
-        {/* Botón Modo Dark/Light */}
-        {mounted && (
-          <button
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full hover:bg-gray-300 dark:hover:bg-gray-600 transition"
-          >
-            {theme === "dark" ? (
-              <Sun className="w-5 h-5 text-yellow-500" />
-            ) : (
-              <Moon className="w-5 h-5 text-blue-800" />
-            )}
-          </button>
-        )}
       </div>
 
       {/* Contenido principal */}
